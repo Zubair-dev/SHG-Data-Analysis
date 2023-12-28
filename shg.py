@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 @st.cache_data
 def load_data():
@@ -64,8 +65,9 @@ revenue_profit_fig = px.bar(grouped_df[grouped_df['Country'].isin(top_countries)
                             title='Revenue and Profit by Country', 
                             color_discrete_map={'Revenue':'lightgreen', 'Profit/Loss':'lightblue'})
 
-revenue_profit_fig.update_layout(xaxis_title="", yaxis_title="", legend_title="", title_x=0.5, autosize=False, width=700, height=530, plot_bgcolor='rgba(0,0,0,0)', legend=dict(x=0.8, y=0.05, traceorder="normal"))
-
+revenue_profit_fig.update_layout(xaxis_title="", yaxis_title="", legend_title="", title_x=0.5, autosize=False, width=500, height=700, plot_bgcolor='rgba(0,0,0,0)', legend=dict(x=0.8, y=0.05, traceorder="normal"))
+revenue_profit_fig.update_xaxes(fixedrange=True)
+revenue_profit_fig.update_yaxes(fixedrange=True)
 # Display the figure
 st.plotly_chart(revenue_profit_fig)
 
@@ -77,8 +79,9 @@ status_fig = px.pie(filtered_df.groupby("Status").size().reset_index(name='Booki
                     names='Status', color='Status', values='Booking Count', 
                     title='Booking Count(Status)', 
                     color_discrete_map={'Check-Out': 'lightgreen', 'Canceled':'gray', 'No-Show':'Salmon'} )
-status_fig.update_layout(title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=700, height=400)
-
+status_fig.update_layout(title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=400, height=400)
+status_fig.update_xaxes(fixedrange=True)
+status_fig.update_yaxes(fixedrange=True)
 # Display the figure
 st.plotly_chart(status_fig)
 
@@ -92,7 +95,8 @@ cust_fig = px.bar(filtered_df.groupby(["Customer Type", "Status"]).size().reset_
          color_discrete_map={'Check-Out': 'lightgreen', 'Canceled':'gray', 'No-Show':'Salmon'})
 
 cust_fig.update_layout(xaxis_title="Customer Type", yaxis_title="", plot_bgcolor='rgba(0,0,0,0)', barmode='stack', showlegend=False, autosize=False, width=380, height=430)
-
+cust_fig.update_xaxes(fixedrange=True)
+cust_fig.update_yaxes(fixedrange=True)
 # Display the figure in the first column
 col1.plotly_chart(cust_fig)
 
@@ -103,18 +107,29 @@ dist_fig = px.bar(filtered_df.groupby(["Distribution Channel", "Status"]).size()
          color_discrete_map={'Check-Out': 'lightgreen', 'Canceled':'gray', 'No-Show':'Salmon'})
 
 dist_fig.update_layout(xaxis_title="Distribution Channel", yaxis_title="", plot_bgcolor='rgba(0,0,0,0)', barmode='stack', showlegend=False, autosize=False, width=380, height=430)
-
+dist_fig.update_xaxes(fixedrange=True)
+dist_fig.update_yaxes(fixedrange=True)
 # Display the figure in the second column
 col2.plotly_chart(dist_fig)
 
 
-# Create the line chart for 'Cancellations Over Time'
-cancelled_fig = px.line(filtered_df.groupby("Booking Date")["Cancelled (0/1)"].sum().reset_index(), 
-                        x='Booking Date', y='Cancelled (0/1)',
-                        title='Cancellations Over Time')
-cancelled_fig.update_traces(line=dict(color='gray'))
-cancelled_fig.update_layout(xaxis_title="", yaxis_title="", title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=700, height=400)
+# Group the data by 'Booking Date' and calculate the sum of 'Cancelled (0/1)' and total bookings for each date
+grouped_df = filtered_df.groupby("Booking Date").agg({'Cancelled (0/1)': 'sum', 'Booking Date': 'count'}).rename(columns={'Booking Date': 'Total Bookings'}).reset_index()
 
-# Display the figure
-st.plotly_chart(cancelled_fig)
+# Create a line chart
+fig = go.Figure()
+
+# Add a line for cancelled bookings
+fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Cancelled (0/1)'], mode='lines', name='Cancelled Bookings', line=dict(color='gray')))
+
+# Add a line for total bookings
+fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Total Bookings'], mode='lines', name='Total Bookings', line=dict(color='white')))
+
+# Update the layout of the chart
+fig.update_layout(xaxis_title="", yaxis_title="", title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400)
+fig.update_xaxes(fixedrange=True)
+fig.update_yaxes(fixedrange=True)
+
+# Display the chart
+st.plotly_chart(fig)
  
