@@ -95,7 +95,7 @@ cust_fig.update_layout(xaxis_title="Customer Type", yaxis_title="", plot_bgcolor
 cust_fig.update_xaxes(fixedrange=True)
 cust_fig.update_yaxes(fixedrange=True)
 # Display the figure in the first column
-cust_fig.plotly_chart(cust_fig)
+st.plotly_chart(cust_fig)
 
 # Create the stacked bar chart with the color map
 dist_fig = px.bar(filtered_df.groupby(["Distribution Channel", "Status"]).size().reset_index(name='Count').sort_values(by= 'Count', ascending=True), 
@@ -107,7 +107,7 @@ dist_fig.update_layout(xaxis_title="Distribution Channel", yaxis_title="", plot_
 dist_fig.update_xaxes(fixedrange=True)
 dist_fig.update_yaxes(fixedrange=True)
 # Display the figure in the second column
-dist_fig.plotly_chart(dist_fig)
+st.plotly_chart(dist_fig)
 
 
 # Group the data by 'Booking Date' and calculate the sum of 'Cancelled (0/1)' and total bookings for each date
