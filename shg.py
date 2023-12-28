@@ -65,7 +65,7 @@ revenue_profit_fig = px.bar(grouped_df[grouped_df['Country'].isin(top_countries)
                             title='Revenue and Profit by Country', 
                             color_discrete_map={'Revenue':'lightgreen', 'Profit/Loss':'lightblue'})
 
-revenue_profit_fig.update_layout(xaxis_title="", yaxis_title="", legend_title="", title_x=0.5, autosize=False, width=380, height=400, plot_bgcolor='rgba(0,0,0,0)', legend=dict(x=0.8, y=0.05, traceorder="normal"))
+revenue_profit_fig.update_layout(xaxis_title="", yaxis_title="", legend_title="",  autosize=False, width=380, height=400, plot_bgcolor='rgba(0,0,0,0)', legend=dict(x=0.8, y=0.05, traceorder="normal"))
 revenue_profit_fig.update_xaxes(fixedrange=True)
 revenue_profit_fig.update_yaxes(fixedrange=True)
 # Display the figure
@@ -79,7 +79,7 @@ status_fig = px.pie(filtered_df.groupby("Status").size().reset_index(name='Booki
                     names='Status', color='Status', values='Booking Count', 
                     title='Booking Count(Status)', 
                     color_discrete_map={'Check-Out': 'lightgreen', 'Canceled':'gray', 'No-Show':'Salmon'} )
-status_fig.update_layout(title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=380, height=400)
+status_fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=380, height=400)
 status_fig.update_xaxes(fixedrange=True)
 status_fig.update_yaxes(fixedrange=True)
 # Display the figure
@@ -123,7 +123,7 @@ fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Cancelled (
 fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Total Bookings'], mode='lines', name='Total Bookings', line=dict(color='white')))
 
 # Update the layout of the chart
-fig.update_layout(xaxis_title="", yaxis_title="", title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400)
+fig.update_layout(xaxis_title="", yaxis_title="", plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400)
 fig.update_xaxes(fixedrange=True)
 fig.update_yaxes(fixedrange=True)
 
