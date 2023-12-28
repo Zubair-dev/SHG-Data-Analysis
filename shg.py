@@ -65,7 +65,7 @@ revenue_profit_fig = px.bar(grouped_df[grouped_df['Country'].isin(top_countries)
                             title='Revenue and Profit by Country', 
                             color_discrete_map={'Revenue':'lightgreen', 'Profit/Loss':'lightblue'})
 
-revenue_profit_fig.update_layout(xaxis_title="", yaxis_title="", legend_title="", title_x=0.5, autosize=False, width=500, height=700, plot_bgcolor='rgba(0,0,0,0)', legend=dict(x=0.8, y=0.05, traceorder="normal"))
+revenue_profit_fig.update_layout(xaxis_title="", yaxis_title="", legend_title="", title_x=0.5, autosize=False, width=380, height=400, plot_bgcolor='rgba(0,0,0,0)', legend=dict(x=0.8, y=0.05, traceorder="normal"))
 revenue_profit_fig.update_xaxes(fixedrange=True)
 revenue_profit_fig.update_yaxes(fixedrange=True)
 # Display the figure
@@ -79,15 +79,12 @@ status_fig = px.pie(filtered_df.groupby("Status").size().reset_index(name='Booki
                     names='Status', color='Status', values='Booking Count', 
                     title='Booking Count(Status)', 
                     color_discrete_map={'Check-Out': 'lightgreen', 'Canceled':'gray', 'No-Show':'Salmon'} )
-status_fig.update_layout(title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=400, height=400)
+status_fig.update_layout(title_x=0.5, plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=380, height=400)
 status_fig.update_xaxes(fixedrange=True)
 status_fig.update_yaxes(fixedrange=True)
 # Display the figure
 st.plotly_chart(status_fig)
-
-# Create two columns for the bar charts
-col1, col2 = st.columns(2)
-
+ 
 # Create the stacked bar chart for 'Customer Type'
 cust_fig = px.bar(filtered_df.groupby(["Customer Type", "Status"]).size().reset_index(name='Count').sort_values(by= 'Count', ascending=True), 
          x='Customer Type', y='Count', 
@@ -98,7 +95,7 @@ cust_fig.update_layout(xaxis_title="Customer Type", yaxis_title="", plot_bgcolor
 cust_fig.update_xaxes(fixedrange=True)
 cust_fig.update_yaxes(fixedrange=True)
 # Display the figure in the first column
-col1.plotly_chart(cust_fig)
+cust_fig.plotly_chart(cust_fig)
 
 # Create the stacked bar chart with the color map
 dist_fig = px.bar(filtered_df.groupby(["Distribution Channel", "Status"]).size().reset_index(name='Count').sort_values(by= 'Count', ascending=True), 
@@ -110,7 +107,7 @@ dist_fig.update_layout(xaxis_title="Distribution Channel", yaxis_title="", plot_
 dist_fig.update_xaxes(fixedrange=True)
 dist_fig.update_yaxes(fixedrange=True)
 # Display the figure in the second column
-col2.plotly_chart(dist_fig)
+dist_fig.plotly_chart(dist_fig)
 
 
 # Group the data by 'Booking Date' and calculate the sum of 'Cancelled (0/1)' and total bookings for each date
