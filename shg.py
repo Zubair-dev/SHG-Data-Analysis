@@ -4,7 +4,7 @@ import plotly.express as px
 
 @st.cache_data
 def load_data():
-    df = pd.read_excel(r"C:\Users\HP\Desktop\SHG_Booking_Data.xlsx")
+    df = pd.read_excel(r"SHG_Booking_Data.xlsx")
     df['Booking Year'] = df['Booking Date'].dt.year
     df['Booking Month'] = df['Booking Date'].dt.strftime('%B')
     df['Profit/Loss'] = df['Revenue'] + df['Revenue Loss']
