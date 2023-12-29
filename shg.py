@@ -86,7 +86,7 @@ fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Cancelled (
 fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Total Bookings'], mode='lines', name='Total', line=dict(color='white')))
 
 # Update the layout of the chart
-fig.update_layout(xaxis_title="Booking", yaxis_title="", title='Booking Count by Date',plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400, legend=dict(x=0.7, y=1, traceorder="normal"))
+fig.update_layout(xaxis_title="Booking", yaxis_title="", title='Booking Count by Date',plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=380, height=400, legend=dict(x=0.7, y=1, traceorder="normal"))
 fig.update_xaxes(fixedrange=True)
 fig.update_yaxes(fixedrange=True)
 
