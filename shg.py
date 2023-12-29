@@ -42,8 +42,8 @@ total_cancellations = df['Cancelled (0/1)'].sum()
 # Display the calculated values in each column
 col1, col2 = st.columns(2)
 # Image at the top
-col1.markdown(f"<center>Revenue<br><h1><span style='color: {'lightgreen'};'>{total_revenue:.2f} M</h1></center>" , unsafe_allow_html=True)
-col2.markdown(f"<center>Profit/Loss<br><h1><span style='color: {'lightblue'};'>{total_profit:.2f} M</span></h2>", unsafe_allow_html=True)
+col1.markdown(f"<center>Revenue<br><h3><span style='color: {'lightgreen'};'>{total_revenue:.2f} M</h3></center>" , unsafe_allow_html=True)
+col2.markdown(f"<center>Profit/Loss<br><h3><span style='color: {'lightblue'};'>{total_profit:.2f} M</span></h3>", unsafe_allow_html=True)
 
 
 # Melt the DataFrame to have 'Revenue' and 'Profit' in the same column
@@ -70,8 +70,8 @@ st.plotly_chart(revenue_profit_fig)
 
 # Display the calculated values in each column
 col1, col2 = st.columns(2)
-col1.markdown(f"<center>Bookings<br><h1>{total_bookings}</h1></center>" , unsafe_allow_html=True)
-col2.markdown(f"<center>Cancellations<br><h1><span style='color: {'gray'};'>{total_cancellations}</h1></center>" , unsafe_allow_html=True)
+col1.markdown(f"<center>Bookings<br><h3>{total_bookings}</h3></center>" , unsafe_allow_html=True)
+col2.markdown(f"<center>Cancellations<br><h3><span style='color: {'gray'};'>{total_cancellations}</h3></center>" , unsafe_allow_html=True)
 
 # Group the data by 'Booking Date' and calculate the sum of 'Cancelled (0/1)' and total bookings for each date
 grouped_df =  df.groupby("Booking Date").agg({'Cancelled (0/1)': 'sum', 'Booking Date': 'count'}).rename(columns={'Booking Date': 'Total Bookings'}).reset_index()
@@ -86,7 +86,7 @@ fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Cancelled (
 fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Total Bookings'], mode='lines', name='Total', line=dict(color='white')))
 
 # Update the layout of the chart
-fig.update_layout(xaxis_title="Booking", yaxis_title="", title='Booking Count by Date',plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=380, height=400, legend=dict(x=0.7, y=1, traceorder="normal"))
+fig.update_layout(xaxis_title="", yaxis_title="Bookingw ", title='Booking Count by Date',plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=380, height=400, legend=dict(x=0.7, y=1, traceorder="normal"))
 fig.update_xaxes(fixedrange=True)
 fig.update_yaxes(fixedrange=True)
 
