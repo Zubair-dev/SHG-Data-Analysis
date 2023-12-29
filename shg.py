@@ -74,7 +74,7 @@ col1.markdown(f"<center>Bookings<br><h1>{total_bookings}</h1></center>" , unsafe
 col2.markdown(f"<center>Cancellations<br><h1><span style='color: {'gray'};'>{total_cancellations}</h1></center>" , unsafe_allow_html=True)
 
 # Group the data by 'Booking Date' and calculate the sum of 'Cancelled (0/1)' and total bookings for each date
-grouped_df = filtered_df.groupby("Booking Date").agg({'Cancelled (0/1)': 'sum', 'Booking Date': 'count'}).rename(columns={'Booking Date': 'Total Bookings'}).reset_index()
+grouped_df =  df.groupby("Booking Date").agg({'Cancelled (0/1)': 'sum', 'Booking Date': 'count'}).rename(columns={'Booking Date': 'Total Bookings'}).reset_index()
 
 # Create a line chart
 fig = go.Figure()
@@ -86,7 +86,7 @@ fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Cancelled (
 fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Total Bookings'], mode='lines', name='Total Bookings', line=dict(color='white')))
 
 # Update the layout of the chart
-fig.update_layout(xaxis_title="", yaxis_title="", plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400)
+fig.update_layout(xaxis_title="", yaxis_title="", plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400, legend=dict(x=0.9, y=1, traceorder="normal")
 fig.update_xaxes(fixedrange=True)
 fig.update_yaxes(fixedrange=True)
 
