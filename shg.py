@@ -39,15 +39,12 @@ total_profit = df['Profit/Loss'].sum()/1e6
 total_bookings = len(df)
 total_cancellations = df['Cancelled (0/1)'].sum()
 
-# Create four columns
-col3, col4, col5, col6 = st.columns(4)
-
 # Display the calculated values in each column
+col1, col2 = st.columns(2)
 # Image at the top
-col3.markdown(f"<center>Revenue<br><h1><span style='color: {'lightgreen'};'>{total_revenue:.2f} M</h1></center>" , unsafe_allow_html=True)
-col4.markdown(f"<center>Profit/Loss<br><h1><span style='color: {'lightblue'};'>{total_profit:.2f} M</span></h2>", unsafe_allow_html=True)
-col5.markdown(f"<center>Bookings<br><h1>{total_bookings}</h1></center>" , unsafe_allow_html=True)
-col6.markdown(f"<center>Cancellations<br><h1><span style='color: {'gray'};'>{total_cancellations}</h1></center>" , unsafe_allow_html=True)
+col1.markdown(f"<center>Revenue<br><h1><span style='color: {'lightgreen'};'>{total_revenue:.2f} M</h1></center>" , unsafe_allow_html=True)
+col2.markdown(f"<center>Profit/Loss<br><h1><span style='color: {'lightblue'};'>{total_profit:.2f} M</span></h2>", unsafe_allow_html=True)
+
 
 # Melt the DataFrame to have 'Revenue' and 'Profit' in the same column
 melted_df = df.melt(id_vars='Country', value_vars=['Revenue', 'Profit/Loss'], var_name='Type', value_name='Amount')
@@ -70,6 +67,31 @@ revenue_profit_fig.update_xaxes(fixedrange=True)
 revenue_profit_fig.update_yaxes(fixedrange=True)
 # Display the figure
 st.plotly_chart(revenue_profit_fig)
+
+# Display the calculated values in each column
+col1, col2 = st.columns(2)
+col1.markdown(f"<center>Bookings<br><h1>{total_bookings}</h1></center>" , unsafe_allow_html=True)
+col2.markdown(f"<center>Cancellations<br><h1><span style='color: {'gray'};'>{total_cancellations}</h1></center>" , unsafe_allow_html=True)
+
+# Group the data by 'Booking Date' and calculate the sum of 'Cancelled (0/1)' and total bookings for each date
+grouped_df = filtered_df.groupby("Booking Date").agg({'Cancelled (0/1)': 'sum', 'Booking Date': 'count'}).rename(columns={'Booking Date': 'Total Bookings'}).reset_index()
+
+# Create a line chart
+fig = go.Figure()
+
+# Add a line for cancelled bookings
+fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Cancelled (0/1)'], mode='lines', name='Cancelled Bookings', line=dict(color='gray')))
+
+# Add a line for total bookings
+fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Total Bookings'], mode='lines', name='Total Bookings', line=dict(color='white')))
+
+# Update the layout of the chart
+fig.update_layout(xaxis_title="", yaxis_title="", plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400)
+fig.update_xaxes(fixedrange=True)
+fig.update_yaxes(fixedrange=True)
+
+# Display the chart
+st.plotly_chart(fig)
 
 # Filter the DataFrame
 filtered_df = df[df['Distribution Channel'] != 'Undefined']
@@ -109,24 +131,4 @@ dist_fig.update_yaxes(fixedrange=True)
 # Display the figure in the second column
 st.plotly_chart(dist_fig)
 
-
-# Group the data by 'Booking Date' and calculate the sum of 'Cancelled (0/1)' and total bookings for each date
-grouped_df = filtered_df.groupby("Booking Date").agg({'Cancelled (0/1)': 'sum', 'Booking Date': 'count'}).rename(columns={'Booking Date': 'Total Bookings'}).reset_index()
-
-# Create a line chart
-fig = go.Figure()
-
-# Add a line for cancelled bookings
-fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Cancelled (0/1)'], mode='lines', name='Cancelled Bookings', line=dict(color='gray')))
-
-# Add a line for total bookings
-fig.add_trace(go.Scatter(x=grouped_df['Booking Date'], y=grouped_df['Total Bookings'], mode='lines', name='Total Bookings', line=dict(color='white')))
-
-# Update the layout of the chart
-fig.update_layout(xaxis_title="", yaxis_title="", plot_bgcolor='rgba(0,0,0,0)', autosize=False, width=500, height=400)
-fig.update_xaxes(fixedrange=True)
-fig.update_yaxes(fixedrange=True)
-
-# Display the chart
-st.plotly_chart(fig)
  
