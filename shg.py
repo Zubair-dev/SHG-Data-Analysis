@@ -40,7 +40,7 @@ total_bookings = len(df)
 total_cancellations = df['Cancelled (0/1)'].sum()
 
 # Display the calculated values in each column
-col1, col2 = st.beta_columns([1,1])
+col1, col2 = st.columns([1,1])
 # Image at the top
 col1.markdown(f"<center>Revenue<br><h3><span style='color: {'lightgreen'};'>{total_revenue:.2f} M</h3></center>" , unsafe_allow_html=True)
 col2.markdown(f"<center>Profit/Loss<br><h3><span style='color: {'lightblue'};'>{total_profit:.2f} M</span></h3>", unsafe_allow_html=True)
@@ -69,7 +69,7 @@ revenue_profit_fig.update_yaxes(fixedrange=True)
 st.plotly_chart(revenue_profit_fig)
 
 # Display the calculated values in each column
-col1, col2 = st.beta_columns([1,1])
+col1, col2 = st.columns([1,1])
 col1.markdown(f"<center>Bookings<br><h3>{total_bookings}</h3></center>" , unsafe_allow_html=True)
 col2.markdown(f"<center>Cancellations<br><h3><span style='color: {'gray'};'>{total_cancellations}</h3></center>" , unsafe_allow_html=True)
 
