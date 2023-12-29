@@ -40,7 +40,7 @@ total_bookings = len(df)
 total_cancellations = df['Cancelled (0/1)'].sum()
 
 # Display the calculated values in each column
-col1, col2 = st.columns(1)
+col1, col2 = st.columns(2)
 # Image at the top
 col1.markdown(f"<center>Revenue<br><h3><span style='color: {'lightgreen'};'>{total_revenue:.2f} M</h3></center>" , unsafe_allow_html=True)
 col2.markdown(f"<center>Profit/Loss<br><h3><span style='color: {'lightblue'};'>{total_profit:.2f} M</span></h3>", unsafe_allow_html=True)
